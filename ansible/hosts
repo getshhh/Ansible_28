@@ -1,0 +1,7 @@
+
+[ubuntu]
+server1 ansible_host=10.4.0.3 
+
+[all:vars]
+ansible_connection=ssh
+

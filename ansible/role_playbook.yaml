@@ -1,0 +1,6 @@
+- name: Nginx installation
+  become: yes 
+  hosts: ubuntu
+  gather_facts: no
+  roles:
+    - nginx

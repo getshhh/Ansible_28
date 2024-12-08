@@ -1,0 +1,49 @@
+- name: Initial server setup
+  hosts: ubuntu
+  gather_facts: no
+  vars:
+    create_user: false
+  tasks:
+  - name: Ensure Nginx is installed
+    apt:
+      name: nginx
+      state: present
+      update_cache: yes
+    # when: ansible_distribution == "Ubuntu"
+
+  - name: Ensure additional packages are installed 
+    apt:
+      name: "{{ item }}"
+      state: present
+    with_items:
+      - net-tools
+      - curl
+      - cron
+
+  - name: Ensure fact is set
+    set_fact:
+      INTERFACE=eth0
+    # when: ansible_ipv4_address==192.168.0.1
+
+  - name: Ensure Nginx enabled and started 
+    service:
+      name: nginx
+      state: started
+      enabled: yes
+    register: nginx_status
+
+  - name: Debug variables 
+    debug: 
+      var: ansible_distribution 
+
+  - name: Ensure user is created 
+    vars:
+      user_name: test-user
+    user:
+      name: "{{ user_name }}"
+      home: /home/ansible
+      shell: /bin/bash
+      create_home: yes
+      state: present
+      # when: create_user == true
+    when: nginx_status.state == "started"

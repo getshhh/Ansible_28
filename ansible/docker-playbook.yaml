@@ -1,0 +1,23 @@
+  - name: Install Docker
+    hosts: ubuntu
+    become: yes
+    tasks:
+    - name: Install Packages
+      apt:
+        name: "{{item}}"
+        state: present
+      with_items:
+      - curl
+      - apt-transport-https
+      - ca-certificates
+      - software-properties-common
+    - name: Add keys
+      shell:
+        cmd: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+    - name: Add repo
+      shell:
+        cmd: add-apt-repository -y "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+    - name: Install Docker
+      apt:
+        name: docker-ce
+        state: present

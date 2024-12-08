@@ -1,0 +1,18 @@
+- name: File manipulation
+  hosts: ubuntu
+  tasks:
+  - name: Copy the file
+    copy:
+      src: test.txt
+      dest: /home/ansible/test.txt
+      mode: "0644"
+  - name: Create the directory
+    file:
+      path: /home/ansible/newdir
+      state: directory
+  - name: Copy the file to dir
+    copy:
+      src: check.txt
+      dest: /home/ansible/newdir/check.txt
+      mode: "0644"
+

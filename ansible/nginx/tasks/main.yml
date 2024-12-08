@@ -1,0 +1,21 @@
+---
+# tasks file for nginx
+
+- name: Ensure Nginx is installed
+  apt:
+    name: nginx 
+    state: present 
+    update_cache: yes 
+- name : Ensure Nginx is enabled
+  service:
+    name: nginx
+    enabled: true
+    state: started
+- name : Ensure template is edited
+  template:
+    src: server.conf.j2
+    dest: /etc/nginx/sites-enabled/default
+    owner: root
+    group: root
+    mode: '0777'
+  notify: restart nginx

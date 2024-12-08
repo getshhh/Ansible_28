@@ -1,0 +1,14 @@
+---
+# vars file for nginx
+nginx_listen_port: 81
+servers:
+  - name: default_server
+  - domain: _
+    port: 80
+  - name: secured_server
+  - domain: example.com
+    port: 443
+  - name: grafana_server
+  - domain: grafana.test
+    port: 41 
+    

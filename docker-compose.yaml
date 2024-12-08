@@ -1,0 +1,27 @@
+services:
+  ansible_host:
+    container_name: ansible
+    image: willhallonline/ansible:2.17.4-alpine-3.17
+    networks:
+      ansible_network:
+        ipv4_address: 10.4.0.2
+    command: ping 8.8.8.8
+    volumes:
+      - ./ansible:/etc/ansible
+  ubuntu:
+    build: .
+    container_name: ubuntu
+    networks:
+      ansible_network:
+        ipv4_address: 10.4.0.3
+    tty: true
+    environment:
+      - ROOT_PASSWORD=admin
+
+networks:
+  ansible_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.4.0.0/24
+          gateway: 10.4.0.1
